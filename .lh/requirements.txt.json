@@ -1,0 +1,18 @@
+{
+    "sourceFile": "requirements.txt",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1741034953070,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1741034953070,
+            "name": "Commit-0",
+            "content": "absl-py==2.1.0\nanyio==4.5.2\nargon2-cffi==23.1.0\nargon2-cffi-bindings==21.2.0\narrow==1.3.0\nastunparse==1.6.3\nasync-lru==2.0.4\nattrs==24.2.0\nbabel==2.16.0\nbeautifulsoup4==4.12.3\nbleach==6.1.0\ncachetools==5.5.0\ncertifi==2024.8.30\ncffi==1.17.1\ncharset-normalizer==3.4.0\nclick-plugins==1.1.1\ncligj==0.7.2\ndefusedxml==0.7.1\nexceptiongroup==1.2.2\nfastjsonschema==2.20.0\nfilelock==3.16.1\nfiona==1.10.1\nflatbuffers==24.3.25\nfqdn==1.5.1\ngast==0.4.0\ngensim==4.3.3\ngeopandas==0.13.2\nglob2==0.7\ngoogle-auth==2.35.0\ngoogle-auth-oauthlib==1.0.0\ngoogle-pasta==0.2.0\ngrpcio==1.67.0\nh11==0.14.0\nh5py==3.11.0\nhttpcore==1.0.6\nhttpx==0.27.2\nhuggingface-hub==0.26.0\nidna==3.10\nipywidgets==8.1.5\nisoduration==20.11.0\njax==0.4.13\nJinja2==3.1.4\njoblib==1.4.2\njson5==0.9.25\njsonpointer==3.0.0\njsonschema==4.23.0\njsonschema-specifications==2023.12.1\njupyter==1.1.1\njupyter-console==6.6.3\njupyter-events==0.10.0\njupyter-lsp==2.2.5\njupyter_server==2.14.2\njupyter_server_terminals==0.5.3\njupyterlab==4.2.5\njupyterlab_pygments==0.3.0\njupyterlab_server==2.27.3\njupyterlab_widgets==3.0.13\nkeras==2.13.1\nlibclang==18.1.1\nMarkdown==3.7\nMarkupSafe==2.1.5\nmistune==3.0.2\nmkl-fft==1.3.1\nmkl-service==2.4.0\nml-dtypes==0.2.0\nmpmath==1.3.0\nnbclient==0.10.0\nnbconvert==7.16.4\nnbformat==5.10.4\nnltk==3.9.1\nnotebook==7.2.2\nnotebook_shim==0.2.4\nnumpy==1.23.5\noauthlib==3.2.2\nopencv-contrib-python==4.10.0.84\nopencv-python==4.10.0.84\nopencv-python-headless==4.10.0\nopt_einsum==3.4.0\noutcome==1.3.0.post0\noverrides==7.7.0\npandas==2.0.3\npandocfilters==1.5.1\npathlib==1.0.1\npkgutil_resolve_name==1.3.10\nprometheus_client==0.21.0\nprotobuf==4.25.5\npyasn1==0.6.1\npyasn1_modules==0.4.1\npycparser==2.22\npygame==2.6.1\npyproj==3.5.0\nPySocks==1.7.1\npySURF==0.2.4.4.3\npython-json-logger==2.0.7\npytz==2024.2\nreferencing==0.35.1\nregex==2024.9.11\nrequests==2.32.3\nrequests-oauthlib==2.0.0\nrfc3339-validator==0.1.4\nrfc3986-validator==0.1.1\nrpds-py==0.20.0\nrsa==4.9\nsafetensors==0.4.5\nscikit-learn==1.3.2\nscipy==1.10.1\nseaborn==0.13.2\nselenium==4.26.1\nSend2Trash==1.8.3\nsmart-open==7.0.5\nsniffio==1.3.1\nsortedcontainers==2.4.0\nsoupsieve==2.6\nsympy==1.13.3\ntensorboard==2.13.0\ntensorboard-data-server==0.7.2\ntensorflow==2.13.1\ntensorflow-estimator==2.13.0\ntensorflow-hub==0.16.1\ntensorflow-io-gcs-filesystem==0.34.0\ntermcolor==2.4.0\nterminado==0.18.1\ntf-keras==2.15.0\nthreadpoolctl==3.5.0\ntinycss2==1.3.0\ntokenizers==0.20.1\ntomli==2.0.2\ntorch==2.2.2\ntqdm==4.66.5\ntransformers==4.45.2\ntrio==0.27.0\ntrio-websocket==0.11.1\ntypes-python-dateutil==2.9.0.20241003\ntyping_extensions==4.12.2\ntzdata==2024.2\nuri-template==1.3.0\nurllib3==2.2.3\nwcwidth==0.2.13\nwebcolors==24.8.0\nwebencodings==0.5.1\nwebsocket-client==1.8.0\nWerkzeug==3.0.4\nwidgetsnbextension==4.0.13\nwordcloud==1.9.3\nwrapt==1.14.1\nwsproto==1.2.0\n"
+        }
+    ]
+}

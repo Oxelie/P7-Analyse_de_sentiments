@@ -1,26 +1,10 @@
-# #### version copilot :
-
-# from fastapi import FastAPI
-# import mlflow.pyfunc
-
-# app = FastAPI()
-# model = mlflow.pyfunc.load_model("models:/model_name/Production")
-
-# @app.post("/predict/")
-# def predict(tweet: str):
-#     prediction = model.predict([tweet])
-#     return {"prediction": prediction}
-
-# version johnathan :
 
 from flask import Flask, request, jsonify
 import pickle
 import os
 import logging
 from mlflow import sklearn
-
-from mlflow.sklearn import load_model
-# from opencensus.ext.azure.log_exporter import AzureLogHandler 
+from opencensus.ext.azure.log_exporter import AzureLogHandler 
 
 
 # # Traceur Azure Application Insights
@@ -38,48 +22,17 @@ from mlflow.sklearn import load_model
 #     logger.info(message)
 #     return "Log sent" 
 
-# Dossier contenant les artefacts (en local) pour la production
-# artifact_dir = "artifacts"
-# model_name = "reg_log_CountVectorizer/version-4"
-# #vectorizer_name = f"{model_name}_vectorizer"
-
-# # Variables globales pour le modèle et le vectorizer
-# loaded_model = None
-# tfidf_vectorizer = None
-
-
-# Charger le modèle depuis le répertoire local
+#
+# Récupérer le chemin du modèle depuis le répertoire local
 artifact_dir = "artifacts/reg_log_CountVectorizer_stem"
-# loaded_model = load_model(artifact_dir)
 
 # Initialiser l'application Flask
 app = Flask(__name__)
 
-# def load_artifacts():
-#     """Charge le modèle et le vectorizer depuis les fichiers locaux."""
-#     try:
-#         # Charger le modèle
-#         model_path = os.path.join(artifact_dir, model_name)
-#         loaded_model = sklearn.load_model(model_path)
-#         print(f"Modèle chargé avec succès depuis : {model_path}")
-
-#         # Charger le vectorizer
-#         vectorizer_path = os.path.join(artifact_dir, vectorizer_name, "model.pkl")
-#         with open(vectorizer_path, 'rb') as f:
-#             tfidf_vectorizer = pickle.load(f)
-#         print(f"Vectorizer TF-IDF chargé avec succès depuis : {vectorizer_path}")
-
-#         return loaded_model, tfidf_vectorizer
-
-#     except Exception as e:
-#         print(f"Erreur lors du chargement des artefacts : {e}")
-#         return None, None
-
+# Fonction de chargement de la piepeline contenant le modèle et le vectorizer
 def load_artifacts():
     """Charge la pipeline complète depuis les fichiers locaux."""
     try:
-        # Charger la pipeline complète
-        # model_path = os.path.join(artifact_dir, "reg_log_CountVectorizer_stem")
         loaded_pipeline = sklearn.load_model(artifact_dir)
         print(f"Pipeline chargée avec succès depuis : {artifact_dir}")
 
@@ -117,47 +70,8 @@ def predict():
         return jsonify({'predictions': predictions.tolist()})
 
     except Exception as e:
+        # logger.error('Erreur de prédiction', exc_info=True)
         return jsonify({'error': str(e)}), 400
-
-
-# # Charger les artefacts au démarrage de l'application
-# loaded_model = load_artifacts()
-
-# # Définir un point d'entrée pour la prédiction
-# @app.route('/predict', methods=['POST'])
-# def predict():
-#     # Vérifier que le modèle et le vectorizer sont chargés
-#     if loaded_model is None : #or tfidf_vectorizer is None:
-#         print(loaded_model)
-#         return jsonify({'error': 'Le modèle ou le vectorizer n\'a pas pu être chargé pour la prédiction'}), 500
-
-#     try:
-#         # Récupérer les données envoyées dans la requête
-#         data = request.get_json()
-#         print(data)
-
-#         # Vérifier que le champ "text" est présent
-#         if "text" not in data:
-#             return jsonify({'error': 'Le champ "text" est manquant dans la requête'}), 400
-
-#         # Récupérer le texte
-#         text_data = data["text"]
-#         print(text_data)
-
-#         # # Transformer le texte en vecteurs TF-IDF
-#         # X_transformed = tfidf_vectorizer.transform([text_data])
-
-#         # Prédire avec le modèle chargé
-#         predictions = loaded_model.predict(text_data)
-#         print(predictions)
-
-#         # Retourner les prédictions en format JSON
-#         return jsonify({'predictions': predictions.tolist()})
-
-#     except Exception as e:
-#         # logger.error('Erreur de prédiction', exc_info=True)
-#         return jsonify({'error': str(e)}), 400
-
 
 # Avec cette configuration :
 

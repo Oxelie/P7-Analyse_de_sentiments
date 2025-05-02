@@ -1,0 +1,31 @@
+# configuration de l'image Docker pour l'API FastAPI
+# Utiliser une image Python de base adaptée
+FROM python:3.11.2-slim
+
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /app
+
+# Configurer et activer l'environnement virtuel
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copier et installer les dépendances
+COPY ./src/requirements-api.txt /app/requirements.txt
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Copier les artefacts sélectionnés du modèle dans le conteneur 
+COPY ./artifacts /app/artifacts
+
+# Copier uniquement les fichiers nécessaires
+COPY api.py /app/api.py
+COPY tests/test-unit-api.py /app/test-unit-api.py
+
+# Exposer le port sur lequel l'API va fonctionner
+EXPOSE 8000
+
+# Définir la commande par défaut pour lancer l'API
+CMD ["python", "/app/api.py"]
+
+# Définir la commande par défaut pour lancer l'API avec Uvicorn
+#CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]

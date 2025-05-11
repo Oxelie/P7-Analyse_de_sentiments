@@ -7,20 +7,20 @@ from mlflow import sklearn
 from opencensus.ext.azure.log_exporter import AzureLogHandler 
 
 
-# # Traceur Azure Application Insights
-# # Votre clé d’instrumentation
-# INSTRUMENTATION_KEY = '2abd6f3d-5473-4b85-88d8-174a16dacf8a'
+# Traceur Azure Application Insights
+# Votre clé d’instrumentation
+INSTRUMENTATION_KEY = 'c2065e7b-253b-42ba-a950-e66e4af255ba'
 
 
-# # Configuration du logger pour Application Insights
-# logger = logging.getLogger(__name__)
-# logger.setLevel(logging.INFO)
-# logger.addHandler(AzureLogHandler(connection_string=f'InstrumentationKey={INSTRUMENTATION_KEY}'))
+# Configuration du logger pour Application Insights
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.addHandler(AzureLogHandler(connection_string=f'InstrumentationKey={INSTRUMENTATION_KEY}'))
 
-# # Fonction pour tester la configuration du logger
-# def test_logger_configuration(message="Test de configuration du logger"):
-#     logger.info(message)
-#     return "Log sent" 
+# Fonction pour tester la configuration du logger
+def test_logger_configuration(message="Test de configuration du logger"):
+    logger.info(message)
+    return "Log sent" 
 
 #
 # Récupérer le chemin du modèle depuis le répertoire local
@@ -79,33 +79,33 @@ def predict():
 # En cas de feedback négatif (non_valide), une trace de niveau warning est envoyée.
 # En cas de feedback positif (valide), une trace de niveau info est envoyée.
 
-# @app.route('/feedback', methods=['POST'])
-# def feedback():
-#     data = request.get_json()
-#     if "text" not in data or "prediction" not in data or "feedback" not in data:
-#         return jsonify({'error': 'Requête invalide'}), 400
+@app.route('/feedback', methods=['POST'])
+def feedback():
+    data = request.get_json()
+    if "text" not in data or "prediction" not in data or "feedback" not in data:
+        return jsonify({'error': 'Requête invalide'}), 400
     
-#     tweet_text = data["text"]
-#     prediction_result = data["prediction"]
-#     feedback_type = data["feedback"]
+    tweet_text = data["text"]
+    prediction_result = data["prediction"]
+    feedback_type = data["feedback"]
 
-#     # Enregistrer le feedback dans Application Insights ou un autre système de suivi ici
-#     if feedback_type == "non_valide":
-#         logger.warning("Prédiction incorrecte", extra={
-#             "custom_dimensions": {
-#                 "tweet": tweet_text,
-#                 "prediction": prediction_result
-#             }
-#         })
-#     elif feedback_type == "valide":
-#         logger.info("Prédiction validée", extra={
-#             "custom_dimensions": {
-#                 "tweet": tweet_text,
-#                 "prediction": prediction_result
-#             }
-#         })
+    # Enregistrer le feedback dans Application Insights ou un autre système de suivi ici
+    if feedback_type == "non_valide":
+        logger.warning("Prédiction incorrecte", extra={
+            "custom_dimensions": {
+                "tweet": tweet_text,
+                "prediction": prediction_result
+            }
+        })
+    elif feedback_type == "valide":
+        logger.info("Prédiction validée", extra={
+            "custom_dimensions": {
+                "tweet": tweet_text,
+                "prediction": prediction_result
+            }
+        })
 
-#     return jsonify({'status': 'Feedback reçu'})
+    return jsonify({'status': 'Feedback reçu'})
 
 # Lancer l'application
 if __name__ == '__main__':

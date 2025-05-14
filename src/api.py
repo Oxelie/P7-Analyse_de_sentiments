@@ -29,6 +29,8 @@ artifact_dir = "artifacts/reg_log_CountVectorizer_stem"
 # Initialiser l'application Flask
 app = Flask(__name__)
 
+
+
 # Fonction de chargement de la piepeline contenant le modèle et le vectorizer
 def load_artifacts():
     """Charge la pipeline complète depuis les fichiers locaux."""
@@ -43,6 +45,10 @@ def load_artifacts():
 
 # Charger les artefacts au démarrage de l'application
 loaded_pipeline = load_artifacts()
+
+@app.route("/", methods=["GET"])
+def home():
+    return "API OK"
 
 # Définir un point d'entrée pour la prédiction
 @app.route('/predict', methods=['POST'])

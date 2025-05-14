@@ -33,13 +33,12 @@ app = Flask(__name__)
 def load_artifacts():
     """Charge la pipeline complète depuis les fichiers locaux."""
     try:
+        logger.info(f"Tentative de chargement de la pipeline depuis : {artifact_dir}")
         loaded_pipeline = sklearn.load_model(artifact_dir)
-        print(f"Pipeline chargée avec succès depuis : {artifact_dir}")
-
+        logger.info(f"Pipeline chargée avec succès depuis : {artifact_dir}")
         return loaded_pipeline
-
     except Exception as e:
-        print(f"Erreur lors du chargement de la pipeline : {e}")
+        logger.error(f"Erreur lors du chargement de la pipeline : {e}", exc_info=True)
         return None
 
 # Charger les artefacts au démarrage de l'application
@@ -48,16 +47,20 @@ loaded_pipeline = load_artifacts()
 # Définir un point d'entrée pour la prédiction
 @app.route('/predict', methods=['POST'])
 def predict():
+    logger.info("Requête reçue pour /predict")
     # Vérifier que la pipeline est chargée
     if loaded_pipeline is None:
+        logger.error("Pipeline non chargée")
         return jsonify({'error': 'La pipeline n\'a pas pu être chargée pour la prédiction'}), 500
 
     try:
         # Récupérer les données envoyées dans la requête
         data = request.get_json()
+        logger.info(f"Données reçues : {data}")
 
         # Vérifier que le champ "text" est présent
         if "text" not in data:
+            logger.error("Champ 'text' manquant dans la requête")
             return jsonify({'error': 'Le champ "text" est manquant dans la requête'}), 400
 
         # Récupérer le texte
@@ -65,12 +68,13 @@ def predict():
 
         # Prédire avec la pipeline chargée
         predictions = loaded_pipeline.predict([text_data])
+        logger.info(f"Prédictions : {predictions}")
 
         # Retourner les prédictions en format JSON
         return jsonify({'predictions': predictions.tolist()})
 
     except Exception as e:
-        # logger.error('Erreur de prédiction', exc_info=True)
+        logger.error(f"Erreur lors de la prédiction : {str(e)}", exc_info=True)
         return jsonify({'error': str(e)}), 400
 
 # Avec cette configuration :
@@ -106,6 +110,12 @@ def feedback():
         })
 
     return jsonify({'status': 'Feedback reçu'})
+
+# endpoint de test pour vérifier que l'application fonctionne correctement
+@app.route('/test', methods=['GET'])
+def test():
+    logger.info("Endpoint de test appelé")
+    return jsonify({'message': 'Endpoint de test fonctionnel'})
 
 # Lancer l'application
 if __name__ == '__main__':

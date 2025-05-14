@@ -120,11 +120,11 @@ def home():
 def test():
     return jsonify({'message': 'Endpoint de test fonctionnel'})
 
-# Lancer l'application
-if __name__ == '__main__':
-    # Envoyer un log de test au démarrage pour vérifier la configuration
-    # test_logger_configuration("Démarrage de l'application - vérification du logger")
-    app.run(host='0.0.0.0', port=8000)
+# # Lancer l'application
+# if __name__ == '__main__':
+#     # Envoyer un log de test au démarrage pour vérifier la configuration
+#     # test_logger_configuration("Démarrage de l'application - vérification du logger")
+#     app.run(host='0.0.0.0', port=8000)
 
 
 

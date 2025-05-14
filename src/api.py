@@ -112,10 +112,7 @@ def feedback():
     return jsonify({'status': 'Feedback reçu'})
 
 # endpoint de test pour vérifier que l'application fonctionne correctement
-@app.route('/test', methods=['GET'])
-def test():
-    logger.info("Endpoint de test appelé")
-    return jsonify({'message': 'Endpoint de test fonctionnel'})
+
 
 # Lancer l'application
 if __name__ == '__main__':

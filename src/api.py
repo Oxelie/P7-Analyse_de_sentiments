@@ -111,8 +111,14 @@ def feedback():
 
     return jsonify({'status': 'Feedback reçu'})
 
-# endpoint de test pour vérifier que l'application fonctionne correctement
 
+@app.route('/', methods=['GET'])
+def home():
+    return "L'API est en cours d'exécution !"
+# endpoint de test pour vérifier que l'application fonctionne correctement
+@app.route('/test', methods=['GET'])
+def test():
+    return jsonify({'message': 'Endpoint de test fonctionnel'})
 
 # Lancer l'application
 if __name__ == '__main__':

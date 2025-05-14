@@ -22,6 +22,7 @@ gast==0.6.0
 gensim @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_b6gb6lpj3r/croot/gensim_1725057958979/work
 google-pasta==0.2.0
 grpcio==1.70.0
+gunicorn
 h5py==3.13.0
 huggingface-hub==0.29.1
 idna==3.10

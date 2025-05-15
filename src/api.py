@@ -46,9 +46,6 @@ def load_artifacts():
 # Charger les artefacts au démarrage de l'application
 loaded_pipeline = load_artifacts()
 
-@app.route("/", methods=["GET"])
-def home():
-    return "API OK"
 
 # Définir un point d'entrée pour la prédiction
 @app.route('/predict', methods=['POST'])

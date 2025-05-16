@@ -3,7 +3,7 @@
 import pytest
 from flask import Flask
 from unittest.mock import MagicMock
-from api import app, loaded_model, tfidf_vectorizer, load_artifacts  # Importer les objets directement
+from src.api import app, loaded_pipeline, load_artifacts # Importer les objets directement
 
 # Utiliser le client de test de Flask pour simuler des requêtes à l'API
 @pytest.fixture
@@ -16,7 +16,7 @@ def test_load_artifacts_success(monkeypatch):
     # Mock le chargement du modèle pour simuler un succès
     def mock_load_model(path):
         return "mock_pipeline"
-    monkeypatch.setattr('api.sklearn.load_model', mock_load_model)
+    monkeypatch.setattr('src.api.sklearn.load_model', mock_load_model)
     pipeline = load_artifacts()
     assert pipeline == "mock_pipeline"
 
@@ -24,7 +24,7 @@ def test_load_artifacts_failure(monkeypatch):
     # Mock le chargement du modèle pour simuler un échec
     def mock_load_model(path):
         raise Exception("Erreur simulée")
-    monkeypatch.setattr('api.sklearn.load_model', mock_load_model)
+    monkeypatch.setattr('src.api.sklearn.load_model', mock_load_model)
     pipeline = load_artifacts()
     assert pipeline is None
     
@@ -60,7 +60,7 @@ def test_missing_text_field(client):
 
 # Test pour vérifier le comportement si le modèle ou le vectorizer ne sont pas chargés
 def test_predict_model_not_loaded(client, monkeypatch):
-    monkeypatch.setattr('api.loaded_pipeline', None)
+    monkeypatch.setattr('src.api.loaded_pipeline', None)
     response = client.post('/predict', json={'text': 'Test de texte'})
     json_data = response.get_json()
     assert response.status_code == 500
@@ -73,8 +73,8 @@ def test_predict_exception(client, monkeypatch):
     def mock_predict(data):
         raise Exception("Erreur dans predict")
 
-    monkeypatch.setattr('api.loaded_pipeline', MagicMock())
-    monkeypatch.setattr('api.loaded_pipeline.predict', mock_predict)
+    monkeypatch.setattr('src.api.loaded_pipeline', MagicMock())
+    monkeypatch.setattr('src.api.loaded_pipeline.predict', mock_predict)
     response = client.post('/predict', json={'text': 'Test de texte'})
     json_data = response.get_json()
     assert response.status_code == 400
@@ -104,7 +104,7 @@ def test_feedback_invalid_request(client):
 # Test pour vérifier les logs dans le feedback - non valide
 def test_feedback_log_non_valide(client, monkeypatch):
     mock_logger = MagicMock()
-    monkeypatch.setattr('api.logger', mock_logger)
+    monkeypatch.setattr('src.api.logger', mock_logger)
 
     client.post('/feedback', json={
         "text": "Ceci est un texte",
@@ -120,7 +120,7 @@ def test_feedback_log_non_valide(client, monkeypatch):
 # Test pour vérifier les logs dans le feedback - valide
 def test_feedback_log_valide(client, monkeypatch):
     mock_logger = MagicMock()
-    monkeypatch.setattr('api.logger', mock_logger)
+    monkeypatch.setattr('src.api.logger', mock_logger)
 
     client.post('/feedback', json={
         "text": "Ceci est un texte",

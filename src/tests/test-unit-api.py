@@ -1,5 +1,4 @@
 
-# version johnathan doit corrspondre aux fonctions de api.py:
 
 import pytest
 from flask import Flask
@@ -12,10 +11,28 @@ def client():
     with app.test_client() as client:
         yield client
 
-# Test pour vérifier que le modèle et le vectorizer sont bien chargés
-def test_model_and_vectorizer_loaded():
-    assert loaded_model is not None, "Le modèle n'a pas été chargé correctement dans l'API."
-    assert tfidf_vectorizer is not None, "Le vectorizer n'a pas été chargé correctement dans l'API."
+# Tests pour vérifier que la piepline contenant le modèle est bien chargée
+def test_load_artifacts_success(monkeypatch):
+    # Mock le chargement du modèle pour simuler un succès
+    def mock_load_model(path):
+        return "mock_pipeline"
+    monkeypatch.setattr('api.sklearn.load_model', mock_load_model)
+    pipeline = load_artifacts()
+    assert pipeline == "mock_pipeline"
+
+def test_load_artifacts_failure(monkeypatch):
+    # Mock le chargement du modèle pour simuler un échec
+    def mock_load_model(path):
+        raise Exception("Erreur simulée")
+    monkeypatch.setattr('api.sklearn.load_model', mock_load_model)
+    pipeline = load_artifacts()
+    assert pipeline is None
+    
+# Test pour vérifier que l'API retourne une réponse correcte pour le point d'entrée racine
+def test_home(client):
+    response = client.get('/')
+    assert response.status_code == 200
+    assert "L'API est en cours d'exécution".encode('utf-8') in response.data
 
 # Test pour vérifier que l'API retourne une prédiction valide pour un texte positif
 def test_predict_positive(client):
@@ -43,51 +60,26 @@ def test_missing_text_field(client):
 
 # Test pour vérifier le comportement si le modèle ou le vectorizer ne sont pas chargés
 def test_predict_model_not_loaded(client, monkeypatch):
-    # Forcer loaded_model à None
-    monkeypatch.setattr('api.loaded_model', None)
+    monkeypatch.setattr('api.loaded_pipeline', None)
     response = client.post('/predict', json={'text': 'Test de texte'})
     json_data = response.get_json()
     assert response.status_code == 500
     assert 'error' in json_data
-    assert json_data['error'] == "Le modèle ou le vectorizer n'a pas pu être chargé pour la prédiction"
+    assert json_data['error'] == "La pipeline n'a pas pu être chargée pour la prédiction"
 
 # Test pour vérifier que l'API gère correctement une exception pendant la prédiction
 def test_predict_exception(client, monkeypatch):
-    def mock_transform(data):
-        raise Exception("Erreur dans transform")
+    # On mock la méthode predict de la pipeline pour simuler une erreur
+    def mock_predict(data):
+        raise Exception("Erreur dans predict")
 
-    monkeypatch.setattr('api.tfidf_vectorizer.transform', mock_transform)
+    monkeypatch.setattr('api.loaded_pipeline', MagicMock())
+    monkeypatch.setattr('api.loaded_pipeline.predict', mock_predict)
     response = client.post('/predict', json={'text': 'Test de texte'})
     json_data = response.get_json()
     assert response.status_code == 400
     assert 'error' in json_data
-    assert json_data['error'] == "Erreur dans transform"
-
-# Test pour le chargement des artefacts - succès
-def test_load_artifacts_success(monkeypatch):
-    def mock_load_model(path):
-        return "mock_model"
-
-    def mock_open(path, mode):
-        return MagicMock()
-
-    monkeypatch.setattr('api.sklearn.load_model', mock_load_model)
-    monkeypatch.setattr('builtins.open', mock_open)
-    monkeypatch.setattr('pickle.load', lambda f: "mock_vectorizer")
-
-    model, vectorizer = load_artifacts()
-    assert model == "mock_model"
-    assert vectorizer == "mock_vectorizer"
-
-# Test pour le chargement des artefacts - échec
-def test_load_artifacts_failure(monkeypatch):
-    def mock_load_model(path):
-        raise Exception("Erreur simulée")
-
-    monkeypatch.setattr('api.sklearn.load_model', mock_load_model)
-    model, vectorizer = load_artifacts()
-    assert model is None
-    assert vectorizer is None
+    assert json_data['error'] == "Erreur dans predict"
 
 # Test pour le point d'entrée feedback - cas valide
 def test_feedback_valid(client):

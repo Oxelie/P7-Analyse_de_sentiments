@@ -24,7 +24,7 @@ def test_logger_configuration(message="Test de configuration du logger"):
 
 #
 # Récupérer le chemin du modèle depuis le répertoire local
-artifact_dir = "artifacts/reg_log_CountVectorizer_stem"
+artifact_dir = "artifacts/reg_log_TfidfVectorizer_lem"
 
 # Initialiser l'application Flask
 app = Flask(__name__)

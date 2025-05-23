@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1748000947623,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1748001473584,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n \n \n import pytest\n+import numpy as np\n from flask import Flask\n from unittest.mock import MagicMock\n from src.api import app, loaded_pipeline, load_artifacts # Importer les objets directement\n \n@@ -35,9 +36,9 @@\n     assert \"L'API est en cours d'exécution\".encode('utf-8') in response.data\n \n # Test pour vérifier que l'API retourne une prédiction valide pour un texte positif\n def test_predict_positive(client, monkeypatch):\n-    monkeypatch.setattr('src.api.loaded_pipeline', MagicMock(predict=lambda x: [1]))\n+    monkeypatch.setattr('src.api.loaded_pipeline', MagicMock(predict=lambda x: np.array([1])))\n     response = client.post('/predict', json={'text': 'Je suis tellement heureux aujourd\\'hui!'})\n     json_data = response.get_json()\n     assert response.status_code == 200\n     assert 'predictions' in json_data\n"
+                },
+                {
+                    "date": 1748001488104,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,9 +45,9 @@\n     assert isinstance(json_data['predictions'], list)  # Vérifie que les prédictions sont sous forme de liste\n \n # Test pour vérifier que l'API retourne une prédiction valide pour un texte négatif\n def test_predict_negative(client, monkeypatch):\n-    monkeypatch.setattr('src.api.loaded_pipeline', MagicMock(predict=lambda x: [0]))\n+    monkeypatch.setattr('src.api.loaded_pipeline', MagicMock(predict=lambda x: np.array([0])))\n     response = client.post('/predict', json={'text': 'Je suis très triste et déçu.'})\n     json_data = response.get_json()\n     assert response.status_code == 200\n     assert 'predictions' in json_data\n"
                 }
             ],
             "date": 1748000947623,

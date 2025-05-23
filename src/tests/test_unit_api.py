@@ -1,6 +1,7 @@
 
 
 import pytest
+import numpy as np
 from flask import Flask
 from unittest.mock import MagicMock
 from src.api import app, loaded_pipeline, load_artifacts # Importer les objets directement
@@ -36,7 +37,7 @@ def test_home(client):
 
 # Test pour vérifier que l'API retourne une prédiction valide pour un texte positif
 def test_predict_positive(client, monkeypatch):
-    monkeypatch.setattr('src.api.loaded_pipeline', MagicMock(predict=lambda x: [1]))
+    monkeypatch.setattr('src.api.loaded_pipeline', MagicMock(predict=lambda x: np.array([1])))
     response = client.post('/predict', json={'text': 'Je suis tellement heureux aujourd\'hui!'})
     json_data = response.get_json()
     assert response.status_code == 200
@@ -45,7 +46,7 @@ def test_predict_positive(client, monkeypatch):
 
 # Test pour vérifier que l'API retourne une prédiction valide pour un texte négatif
 def test_predict_negative(client, monkeypatch):
-    monkeypatch.setattr('src.api.loaded_pipeline', MagicMock(predict=lambda x: [0]))
+    monkeypatch.setattr('src.api.loaded_pipeline', MagicMock(predict=lambda x: np.array([0])))
     response = client.post('/predict', json={'text': 'Je suis très triste et déçu.'})
     json_data = response.get_json()
     assert response.status_code == 200

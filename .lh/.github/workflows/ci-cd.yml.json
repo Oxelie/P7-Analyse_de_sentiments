@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1747990199068,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1747995408467,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n \n     - name: Install dependencies\n       run: |\n         python -m pip install --upgrade pip\n+        pip install pytest\n         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi\n         if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi\n \n     - name: Run unit tests\n@@ -43,8 +44,9 @@\n         python-version: '3.9'\n \n     - name: Install dependencies\n       run: |\n+        pip install pytest\n         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi\n         if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi\n \n     - name: 'Deploy to Azure Web App'\n"
                 }
             ],
             "date": 1747990199068,

@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1747990199068,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1747990367179,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,10 @@\n   build-and-test:\n     runs-on: ubuntu-latest\n \n     steps:\n-    - uses: actions/checkout@v4\n+    - name: Checkout code\n+      uses: actions/checkout@v4\n \n     - name: Set up Python\n       uses: actions/setup-python@v5\n       with:\n@@ -20,35 +21,34 @@\n \n     - name: Install dependencies\n       run: |\n         python -m pip install --upgrade pip\n-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi\n-        if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi\n+        pip install -r src/requirements.txt\n \n     - name: Run unit tests\n       run: |\n-        pytest\n+        pytest tests/\n \n   # Déploiement sur Azure Web App \n   deploy:\n     needs: build-and-test\n     runs-on: ubuntu-latest\n     if: github.ref == 'refs/heads/main'\n \n     steps:\n-    - uses: actions/checkout@v4\n+    - name: Checkout code\n+      uses: actions/checkout@v4\n \n     - name: Set up Python\n       uses: actions/setup-python@v5\n       with:\n         python-version: '3.9'\n \n     - name: Install dependencies\n       run: |\n-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi\n-        if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi\n+        pip install -r src/requirements.txt\n \n-    - name: 'Deploy to Azure Web App'\n+    - name: Deploy to Azure Web App\n       uses: azure/webapps-deploy@v3\n       with:\n         app-name: ${{ secrets.AZURE_WEBAPP_NAME }}\n         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}\n"
+                },
+                {
+                    "date": 1747990426339,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,8 +22,10 @@\n     - name: Install dependencies\n       run: |\n         python -m pip install --upgrade pip\n         pip install -r src/requirements.txt\n+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi\n+        if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi\n \n     - name: Run unit tests\n       run: |\n         pytest tests/\n@@ -45,8 +47,10 @@\n \n     - name: Install dependencies\n       run: |\n         pip install -r src/requirements.txt\n+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi\n+        if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi\n \n     - name: Deploy to Azure Web App\n       uses: azure/webapps-deploy@v3\n       with:\n"
                 }
             ],
             "date": 1747990199068,

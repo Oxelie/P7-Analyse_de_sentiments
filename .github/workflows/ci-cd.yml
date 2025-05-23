@@ -27,7 +27,7 @@ jobs:
 
     - name: Run unit tests
       run: |
-        pytest
+        pytest src/tests/
 
   # Déploiement sur Azure Web App 
   deploy:
@@ -45,7 +45,6 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi
 

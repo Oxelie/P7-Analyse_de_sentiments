@@ -16,6 +16,7 @@ exceptiongroup
 executing 
 filelock==3.17.0
 flatbuffers==25.2.10
+flask
 fonttools 
 fsspec==2025.2.0
 gast==0.6.0

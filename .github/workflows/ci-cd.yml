@@ -50,9 +50,13 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi
 
+    - name: Package application
+      run: |
+        zip -r app.zip src
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
       with:
         app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: src
+        package: app.zip

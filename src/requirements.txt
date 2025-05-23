@@ -56,6 +56,8 @@ numexpr
 numpy 
 opt_einsum==3.4.0
 optree==0.14.1
+opencensus
+opencensus-ext-azure
 packaging 
 pandas 
 parso 

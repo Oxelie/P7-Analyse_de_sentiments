@@ -1,0 +1,20 @@
+# Utilise une image Python légère
+FROM python:3.9-slim
+
+# Définit le répertoire de travail
+WORKDIR /app
+
+# Copie les dépendances
+COPY requirements.txt .
+
+# Installe les dépendances Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copie l'ensemble du code dans l'image
+COPY . .
+
+# Expose le port utilisé par l'API
+EXPOSE 8000
+
+# Démarre l'API Flask via Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]

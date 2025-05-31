@@ -1,0 +1,18 @@
+{
+    "sourceFile": "expérimentations/DockerFileAPI_base_future",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1748680157617,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1748680157616,
+            "name": "Commit-0",
+            "content": "# Utilise une image Python légère\nFROM python:3.9-slim\n\n# Définit le répertoire de travail\nWORKDIR /app\n\n# Copie les dépendances\nCOPY requirements.txt .\n\n# Installe les dépendances Python\nRUN pip install --no-cache-dir -r requirements.txt\n\n# Copie l'ensemble du code dans l'image\nCOPY . .\n\n# Expose le port utilisé par l'API\nEXPOSE 8000\n\n# Démarre l'API Flask via Gunicorn\nCMD [\"gunicorn\", \"--bind\", \"0.0.0.0:8000\", \"app:app\"]\n"
+        }
+    ]
+}
